@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Simplified Tidy HAR Dataset Code Book</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>Simplified Tidy HAR Dataset Code Book</h1>
+
+<h2>Transformation</h2>
+
+<p>We loaded and transformed data from &ldquo;UCI HAR Dataset&rdquo;</p>
+
+<p>These are steps of transformation we made:</p>
+
+<ol>
+<li><p>At first, we loaded feature names, and selected only those names, that deal with mean and standard deviation values. These names were transformed to comply R naming rules: parenthesis were removed, dash symbols &#39;-&#39; transformed to underscore &#39;_&#39;, commas transformed to dots.</p></li>
+<li><p>The source feature variables, subject and activity identifiers were loaded from test and train sets. Then feature variables columns were subsetted by variable names selected in step 1. For test and train set there were data frame combined from subject identifier, activity inentifier and corresponding selected feature variables.</p></li>
+<li><p>Test and train sets were combined into single full data set. Activity identifiers were transformed into factor with level names from activity lables data set. The full data set was reordered by subject identifier to speed up further processing.</p></li>
+<li><p>The resulting data set was made from single full data set by aggregating it, grouping by activity and subject with mean function. It was written to txt file.</p></li>
+</ol>
+
+<p>Resulting data set consists of 88 variables. The data variables contains experimental feature variables data averaged for each activity and each subject.</p>
+
+<h2>Variables</h2>
+
+<h3>Grouping columns</h3>
+
+<ul>
+<li>Activity
+
+<ul>
+<li>Label of subject activity. One of the following names: </li>
+<li>WALKING</li>
+<li>WALKING_UPSTAIRS</li>
+<li>WALKING_DOWNSTAIRS</li>
+<li>SITTING</li>
+<li>STANDING</li>
+<li>LAYING</li>
+</ul></li>
+<li>Subject
+
+<ul>
+<li>Identifier of the subject who carried out the experiment.</li>
+</ul></li>
+</ul>
+
+<h3>Time domain values</h3>
+
+<h4>Body acceleration</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>tBodyAcc_mean_X</li>
+<li>tBodyAcc_mean_Y</li>
+<li>tBodyAcc_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>tBodyAcc_std_X</li>
+<li>tBodyAcc_std_Y</li>
+<li>tBodyAcc_std_Z</li>
+</ul>
+
+<h4>Gravity acceleration</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>tGravityAcc_mean_X</li>
+<li>tGravityAcc_mean_Y</li>
+<li>tGravityAcc_mean_Z</li>
+</ul>
+
+<p>Axial standsrd deviations:</p>
+
+<ul>
+<li>tGravityAcc_std_X</li>
+<li>tGravityAcc_std_Y</li>
+<li>tGravityAcc_std_Z</li>
+</ul>
+
+<h4>Body acceleration jerk (derivative)</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>tBodyAccJerk_mean_X</li>
+<li>tBodyAccJerk_mean_Y</li>
+<li>tBodyAccJerk_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>tBodyAccJerk_std_X</li>
+<li>tBodyAccJerk_std_Y</li>
+<li>tBodyAccJerk_std_Z</li>
+</ul>
+
+<h4>Body angular velocity</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>tBodyGyro_mean_X</li>
+<li>tBodyGyro_mean_Y</li>
+<li>tBodyGyro_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>tBodyGyro_std_X</li>
+<li>tBodyGyro_std_Y</li>
+<li>tBodyGyro_std_Z</li>
+</ul>
+
+<h4>Body angular velocity jerk (derivative)</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>tBodyGyroJerk_mean_X</li>
+<li>tBodyGyroJerk_mean_Y</li>
+<li>tBodyGyroJerk_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>tBodyGyroJerk_std_X</li>
+<li>tBodyGyroJerk_std_Y</li>
+<li>tBodyGyroJerk_std_Z</li>
+</ul>
+
+<h4>Magnitude values</h4>
+
+<ul>
+<li>tBodyAccMag_mean
+
+<ul>
+<li>Body acceleration magnitude mean</li>
+</ul></li>
+<li>tBodyAccMag_std
+
+<ul>
+<li>Body acceleration magnitude standard deviation</li>
+</ul></li>
+<li>tGravityAccMag_mean
+
+<ul>
+<li>Gravity acceleration magnitude mean</li>
+</ul></li>
+<li>tGravityAccMag_std
+
+<ul>
+<li>Gravity acceleration magnitude standard deviation</li>
+</ul></li>
+<li>tBodyAccJerkMag_mean
+
+<ul>
+<li>Body acceleration jerk magnitude mean</li>
+</ul></li>
+<li>tBodyAccJerkMag_std
+
+<ul>
+<li>Body acceleration jerk magnitude standard deviation</li>
+</ul></li>
+<li>tBodyGyroMag_mean
+
+<ul>
+<li>Angular velocity magnitude mean</li>
+</ul></li>
+<li>tBodyGyroMag_std
+
+<ul>
+<li>Angular velocity magnitude standard deviation</li>
+</ul></li>
+<li>tBodyGyroJerkMag_mean
+
+<ul>
+<li>Angular velocity jerk magnitude mean</li>
+</ul></li>
+<li>tBodyGyroJerkMag_std
+
+<ul>
+<li>Angular velocity jerk magnitude standard deviation</li>
+</ul></li>
+</ul>
+
+<h3>Frequency domain values</h3>
+
+<h4>Body acceleration</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>fBodyAcc_mean_X</li>
+<li>fBodyAcc_mean_Y</li>
+<li>fBodyAcc_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>fBodyAcc_std_X</li>
+<li>fBodyAcc_std_Y</li>
+<li>fBodyAcc_std_Z</li>
+</ul>
+
+<p>Axial frequency means: </p>
+
+<ul>
+<li>fBodyAcc_meanFreq_X</li>
+<li>fBodyAcc_meanFreq_Y</li>
+<li>fBodyAcc_meanFreq_Z</li>
+</ul>
+
+<h4>Body acceleration jerk (derivative)</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>fBodyAccJerk_mean_X</li>
+<li>fBodyAccJerk_mean_Y</li>
+<li>fBodyAccJerk_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>fBodyAccJerk_std_X</li>
+<li>fBodyAccJerk_std_Y</li>
+<li>fBodyAccJerk_std_Z</li>
+</ul>
+
+<p>Axial frequency means: </p>
+
+<ul>
+<li>fBodyAccJerk_meanFreq_X</li>
+<li>fBodyAccJerk_meanFreq_Y</li>
+<li>fBodyAccJerk_meanFreq_Z</li>
+</ul>
+
+<h4>Angular velocity</h4>
+
+<p>Axial means:</p>
+
+<ul>
+<li>fBodyGyro_mean_X</li>
+<li>fBodyGyro_mean_Y</li>
+<li>fBodyGyro_mean_Z</li>
+</ul>
+
+<p>Axial standard deviations:</p>
+
+<ul>
+<li>fBodyGyro_std_X</li>
+<li>fBodyGyro_std_Y</li>
+<li>fBodyGyro_std_Z</li>
+</ul>
+
+<p>Axial frequency means:</p>
+
+<ul>
+<li>fBodyGyro_meanFreq_X</li>
+<li>fBodyGyro_meanFreq_Y</li>
+<li>fBodyGyro_meanFreq_Z</li>
+</ul>
+
+<h4>Magnitude values</h4>
+
+<ul>
+<li>fBodyAccMag_mean
+
+<ul>
+<li>Body acceleration magnitude mean</li>
+</ul></li>
+<li>fBodyAccMag_std
+
+<ul>
+<li>Body acceleration magnitude standard deviation</li>
+</ul></li>
+<li>fBodyAccMag_meanFreq
+
+<ul>
+<li>Body acceleration magnitude frequency mean</li>
+</ul></li>
+<li>fBodyBodyAccJerkMag_mean
+
+<ul>
+<li>Body acceleration jerk magnitude mean</li>
+</ul></li>
+<li>fBodyBodyAccJerkMag_std
+
+<ul>
+<li>Body acceleration jerk magnitude standard deviation</li>
+</ul></li>
+<li>fBodyBodyAccJerkMag_meanFreq
+
+<ul>
+<li>Body acceleration jerk magnitude frequency mean</li>
+</ul></li>
+<li>fBodyBodyGyroMag_mean
+
+<ul>
+<li>Angular velocity magnitude mean</li>
+</ul></li>
+<li>fBodyBodyGyroMag_std
+
+<ul>
+<li>Angular velocity magnitude standard deviation</li>
+</ul></li>
+<li>fBodyBodyGyroMag_meanFreq
+
+<ul>
+<li>Angular velocity magnitude frequency mean</li>
+</ul></li>
+<li>fBodyBodyGyroJerkMag_mean
+
+<ul>
+<li>Angular velocity jerk magnitude mean</li>
+</ul></li>
+<li>fBodyBodyGyroJerkMag_std
+
+<ul>
+<li>Angular velocity jerk magnitude standard deviation</li>
+</ul></li>
+<li>fBodyBodyGyroJerkMag_meanFreq
+
+<ul>
+<li>Angular velocity jerk magnitude frequency mean</li>
+</ul></li>
+</ul>
+
+<h3>Angle values</h3>
+
+<ul>
+<li>angle_tBodyAccMean.gravity
+
+<ul>
+<li>Angle between mean body acceleration and gravity mean</li>
+</ul></li>
+<li>angle_tBodyAccJerkMean.gravityMean
+
+<ul>
+<li>Angle between mean body acceleration jerk and gravity mean</li>
+</ul></li>
+<li>angle_tBodyGyroMean.gravityMean
+
+<ul>
+<li>Angle between mean anglular velocity and gravity mean</li>
+</ul></li>
+<li>angle_tBodyGyroJerkMean.gravityMean
+
+<ul>
+<li>Angle between mean anglular velocity jerk and gravity mean</li>
+</ul></li>
+<li>angle_X.gravityMean
+
+<ul>
+<li>Angle between X axis and gravity mean</li>
+</ul></li>
+<li>angle_Y.gravityMean
+
+<ul>
+<li>Angle between Y axis and gravity mean</li>
+</ul></li>
+<li>angle_Z.gravityMean
+
+<ul>
+<li>Angle between Z axis and gravity mean</li>
+</ul></li>
+</ul>
+
+</body>
+
+</html>
+
